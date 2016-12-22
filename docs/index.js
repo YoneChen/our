@@ -223,7 +223,7 @@ Index.prototype = {
 	createUFO: function () {
 		//创建飞碟
 		var geometry = new THREE.SphereGeometry( 10,12,12);
-		var cubemap = new THREE.TextureLoader().load( "../textures/building.jpg" );
+		var cubemap = new THREE.TextureLoader().load( "./textures/building.jpg" );
 		var material = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:cubemap} );
 		this.UFO = new THREE.Mesh( geometry, material );
 		this.UFO.position.x = 0;
