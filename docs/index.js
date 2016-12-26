@@ -4,13 +4,93 @@
 **/
 var bankList = [
 	{
-		name:'紫金银行',
-		title:'紫金银行活动开发',
-		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
+		name:'2016年开发上线的运营活动',
+		title:'2016年开发上线的运营活动',
+		content: '2016年我们完成17 家银行、58个运营活动项目；上线次数排名前三的的银行是：紫金（17次）、上海（11次）、威海（4次) 和广州（4次）。',
+		chartOption:{
+			title: {
+				text: '2016年H5活动上线银行图',
+		        textStyle: {
+		            color: '#fff'
+		        }
+			},
+			tooltip:{},
+			legend: {
+		        orient: 'vertical',
+		        y: 'bottom',
+		        x:'left',
+		        data:['上线数量'],
+		        textStyle: {
+		            color: '#fff'
+		        }
+			},
+		    geo: {
+		        map: 'china',
+		        label: {
+		            emphasis: {
+		                show: false
+		            }
+		        },
+		        roam: true,
+		        itemStyle: {
+		            normal: {
+		                areaColor: '#323c48',
+		                borderColor: '#1ccece'
+		            },
+		            emphasis: {
+		                areaColor: '#1ccece'
+		            }
+		        }
+		    },
+		    series : [
+		        {
+		            name: '上线数量',
+		            type: 'scatter',
+		            coordinateSystem: 'geo',
+		            data: [
+		            	{name:'紫金银行',value:[118.78,32.04,17]},
+		            	{name:'上海银行',value:[121.48,31.22,11]},
+		            	{name:'广州银行',value:[113.23,23.16,4]},
+		            	{name:'威海银行',value:[122.1,37.5,4]},
+		            	{name:'顺德银行',value:[113.11,23.05,3]},
+		            	{name:'泰安银行',value:[117.13,36.18,3]},
+		            	{name:'绵阳银行',value:[104.73,31.48,2]},
+		            	{name:'台州银行',value:[121.420757,28.656386,2]},
+		            	{name:'吉林银行',value:[126.57,43.87,2]},
+		            	{name:'苏州银行',value:[117.13,36.18,1]},
+		            	{name:'自贡银行',value:[117.13,36.18,1]},
+		            	{name:'阜新银行',value:[117.13,36.18,1]},
+		            	{name:'启东银行',value:[121.05,32.08,2]},
+		            ],
+		            symbolSize: function (val) {
+		                return val[2]*2;
+		            },
+		            hoverAnimation: true,
+		            label: {
+		                normal: {
+		                    formatter: '{b}',
+		                    position: 'right',
+		                    show: true
+		                },
+		                emphasis: {
+		                    show: true
+		                }
+		            },
+		            itemStyle: {
+		                normal: {
+		                    color: '#eee',
+                    		shadowBlur: 2,
+                    		shadowColor: 'rgba(14, 241, 242, 0.8)'
+		                }
+		            }
+		        }
+		    ]
+
+		},
 		imglist:[]
 	},
 	{
-		name:'上海银行',
+		name:'我们一年的工作',
 		title:'上海银行活动开发',
 		content: '活动上线数：10，我们的产出：生活缴费活动、0元看电影活动、一账通转盘引流活动、理财贴息活动等',
 		imglist:[]
@@ -89,13 +169,13 @@ var bankList = [
 	},
 	{
 		name:'台州银行',
-		title:'台州银行活动开发',
+		title:'我们的2017年',
 		content: '活动上线数：10，我们的产出：签到送流量活动、首次贷款充大奖活动、账户安全险活动等',
 		imglist:[]
 	}
 ];
 var vrMode = false;
-var TIME = 2000;
+var TIME = 10000;
 var isMobile = function () {
   	var check = false;
   	(function (a) {
@@ -135,7 +215,7 @@ Index.prototype = {
 		texture.anisotropy	= this.renderer.getMaxAnisotropy();
 		texture.needsUpdate	= true;
 		this.cubeMaterial	= new THREE.MeshLambertMaterial({
-			map		: texture,
+			map: texture,
 			vertexColors	: THREE.VertexColors
 		});
 
@@ -145,6 +225,9 @@ Index.prototype = {
 
 		//创建城市
 		this.scene.add(new THREEx.ProceduralCity(this.renderer));
+
+		//初始化数据图
+		this.initChart();
 		//创建飞碟
 		this.createUFO();
 		//事件绑定
@@ -154,9 +237,12 @@ Index.prototype = {
   		this.vrControls = new THREE.VRControls(this.camera);
 		this.render();
 	},
-	loadingFinsh: function () {
-		var loading = document.querySelector('.loading');
-		loading.style.display = 'none';
+	initChart: function () {
+		// 初始化数据图表
+		this.chartBox = document.querySelector('.chart');
+		this.chart = echarts.init(this.chartBox);
+		this.introBox = document.querySelector('.intro-box');
+		this.chartBox.style.display = 'none';
 	},
 	bindEvent: function() {
 		var self = this;
@@ -164,10 +250,8 @@ Index.prototype = {
 		document.getElementById('vr').addEventListener('click',function () {
 		  	if(!vrMode) {
 		  		vrMode = true;
-		  		document.querySelector('#intro-left').style.display = 'block';	
 		  	} else {
 		  		vrMode = false;
-		  		document.querySelector('#intro-left').style.display = 'none';	
 		  	}
 		  	self.requestFullscreen();
 		  	self.onWindowResize();
@@ -183,10 +267,23 @@ Index.prototype = {
 		window.addEventListener( 'resize', function() {
 			self.onWindowResize();
 		}, false );
-		document.getElementById('stop').addEventListener('click',function () {
-			self.stopAnimation();
+		document.querySelector('.loading').addEventListener('click', function(e) {
+			if(e.target.innerHTML != '开始') return;
+			document.querySelector('.loading-mask').style.display = 'none';
+			document.getElementById('keyboard').play();
+			setTimeout(function(){
+				document.getElementById('AC').play();
+			},4000);
+			self.introBox.className += ' show';		
+			var html = "2016即将即将成为历史，这一年, 我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
+			self.createText(self.introBox,"我们这一年",html,TIME/2,function() {
+				var _self =self;
+				setTimeout(function() {
+					_self.introBox.className = self.introBox.className.replace(/show/g,'hide');
+				}, TIME/2);
+			});
+			self.animate(bankList.length,TIME);
 		})
-		this.domEvents   = new THREEx.DomEvents(self.camera, self.renderer.domElement);
 	},
 
 	onWindowResize: function() {
@@ -234,20 +331,11 @@ Index.prototype = {
     	window.screen.orientation.lock('landscape');
   		}
 	},
-	stopAnimation: function() {
-		TWEEN.removeAll(); //动画结束状态
-
-	},
 	createUFO: function () {
 		//创建飞碟
 		var self = this;
 		var geometry = new THREE.SphereGeometry( 10,12,12);
 		var ufomap = new THREE.TextureLoader().load( "./textures/building.jpg",function() {
-			document.getElementById('AC').play();
-			document.querySelector('#intro').style.display = 'block';		
-			var html = "2016即将即将成为历史，这一年, 我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
-			self.createText('.intro-box',"我们这一年",html,TIME/2);
-			self.animate(bankList.length,TIME);
 		});
 		this.ufomaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:ufomap} );
 		this.UFO = new THREE.Mesh( geometry, this.ufomaterial );
@@ -266,35 +354,29 @@ Index.prototype = {
 			});
 			tween.start();
 	},
-	createText: function (el,title,s,time){
+	createText: function (el,title,s,time,callback){
             var txt = s;
 			if(!txt||txt.length==0) return;
-            var con = document.querySelectorAll(el);
-            var titleDom = document.querySelectorAll('.title');
-            var contentDom = document.querySelectorAll('.content');
-            var classname = [con[0].className,con[1].className];
-            // con.className +=' show';
+            var titleDom = el.querySelector('.title');
+            var contentDom = el.querySelector('.content');
+            el.className +=' show';
             var length = txt.length;
             var ms = time/length;
             var index = 0;
-            for(var i = 0;i<2;i++){
-	            contentDom[i].innerHTML = '';
-	            titleDom[i].className = 'title';
-	            titleDom[i].innerHTML = '';
-	            titleDom[i].append(title);
-	            titleDom[i].className += ' title-show';
-        	}
+            contentDom.innerHTML = '';
+            titleDom.className = 'title';
+            titleDom.innerHTML = title;
+            titleDom.className += ' title-show';
             var tId=setInterval(function(){
-                
-                contentDom[0].append(txt.charAt(index));
-                contentDom[1].append(txt.charAt(index));
+                contentDom.innerHTML += txt.charAt(index);
                 if(index++ === length){
                     clearInterval(tId);
                     index = 0;
-                    con[0].className =classname[0];
-                    con[1].className =classname[1];
                     }
             },ms);
+            if(!!callback) {
+            	setTimeout(callback, time);
+            }
     },
 	createCube: function(obj,height) {
 		var self = this;
@@ -311,14 +393,9 @@ Index.prototype = {
 		cube.castShadow = true;
 		this.scene.add( cube );
 
-		this.domEvents.addEventListener(cube, 'click', function(event){
-			if(!self.isAllowClick) return;
-			self.createText('.intro-box','you clicked on the mesh',TIME/2);
-    		console.log('you clicked on the mesh');
-		}, false);
 		geometry.dispose(); 
 		var tween = new TWEEN.Tween({h:1,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
-			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME/2)
+			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME/4)
 			.onUpdate(function() {
 				cube.scale.y = this.h;
 				self.UFO.position.x = this.x;
@@ -332,13 +409,25 @@ Index.prototype = {
 		setTimeout(function() {
 			TWEEN.remove(tween);
 			tween = null;
-		}, TIME/2);
+		}, TIME/4);
 		setTimeout(function() {
 			if(self.scene.children.length>700) {
 				self.scene.remove(cube);
 			}
-			self.createText('.intro-box',obj.title,obj.content,TIME/2);
-		}, TIME/2);
+			if(!!obj.chartOption) {
+				self.chartBox.style.display = 'block';
+			} else {
+				self.chartBox.style.display = 'none';
+			}
+			self.createText(self.introBox,obj.title,obj.content,TIME/4,function() {
+				self.chart.setOption(obj.chartOption);
+			});
+		}, TIME/4);
+		setTimeout(function() {
+			var className = self.introBox.className;
+			self.introBox.className = className.replace(/show/g,'');
+			self.chart.clear();
+		}, TIME);
 	},
 	createLight: function() {
         this.scene.add(new THREE.AmbientLight(0xFFFFFF));
@@ -376,23 +465,22 @@ Index.prototype = {
 		this.onWindowResize();
 		var id = setInterval(function() {
 			var _self = self;
-			item++;
-			if(item <= num-1) {
+			if(item < num) {
 				self.createCube(bankList[item],5+5*Math.random(),self.createLine);
 			} else {
 				clearInterval(id);
 				setTimeout(function() {
-					_self.createBigUFO();
+					_self.createTV();
 				}, delay);
 			}
+			item++;
 		},delay);
 	},
-	createBigUFO: function() {
-		//创建飞碟
+	createTV: function() {
+		//创建电视屏
 		var self = this;
 
-		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");
-		
+		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");		
 		var sidematerial = new THREE.MeshPhongMaterial( { color: 0xcccccc} );
 		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 		var TVgeometry = new THREE.CubeGeometry(100,75,5,3,3,3);
@@ -410,9 +498,9 @@ Index.prototype = {
 		this.scene.add(this.TV);
 		TVgeometry.dispose(); 
 
-		document.querySelector('#intro').style.display = 'block';		
+		this.introBox.className += ' show';		
 		var html = "这就是我们，我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
-		this.createText('.intro-box',"我们这一年",html,TIME/2);
+		this.createText(this.introBox,"我们这一年",html,TIME/2);
 
 		var tween = new TWEEN.Tween({up:this.TV.position.y,backX:this.UFO.position.x,backY:this.UFO.position.y,backZ:this.UFO.position.z})
 			.to({up:40,backX:0,backY:75,backZ:80},20000)
@@ -423,22 +511,6 @@ Index.prototype = {
 				self.UFO.position.z = this.backZ;
 			});
 			tween.start();
-	},
-	createLine: function(array) {
-		var material = new THREE.LineBasicMaterial({
-				color: 0x0000ff
-		});
-		var geometry = new THREE.Geometry();
-		for(var i = 0;i<array.length;i++) {
-			geometry.vertices.push(new THREE.Vector3(i.x, i.y, i.z));
-		}
-	},
-	finishAnimate:function() {
-		if(vrMode){
-
-		} else {
-
-		}
 	},
 	render: function() {
 		var self = this;
