@@ -280,14 +280,13 @@ Index.prototype = {
             for(var i = 0;i<2;i++){
 	            contentDom[i].innerHTML = '';
 	            titleDom[i].className = 'title';
-	            titleDom[i].innerHTML = '';
-	            titleDom[i].append(title);
+	            titleDom[i].innerHTML = title;
 	            titleDom[i].className += ' title-show';
         	}
             var tId=setInterval(function(){
                 
-                contentDom[0].append(txt.charAt(index));
-                contentDom[1].append(txt.charAt(index));
+                contentDom[0].innerHTML += txt.charAt(index);
+                contentDom[1].innerHTML += txt.charAt(index);
                 if(index++ === length){
                     clearInterval(tId);
                     index = 0;
@@ -382,17 +381,16 @@ Index.prototype = {
 			} else {
 				clearInterval(id);
 				setTimeout(function() {
-					_self.createBigUFO();
+					_self.createTV();
 				}, delay);
 			}
 		},delay);
 	},
-	createBigUFO: function() {
-		//创建飞碟
+	createTV: function() {
+		//创建电视屏
 		var self = this;
 
-		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");
-		
+		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");		
 		var sidematerial = new THREE.MeshPhongMaterial( { color: 0xcccccc} );
 		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 		var TVgeometry = new THREE.CubeGeometry(100,75,5,3,3,3);
