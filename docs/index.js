@@ -363,25 +363,12 @@ Index.prototype = {
             var length = txt.length;
             var ms = time/length;
             var index = 0;
-<<<<<<< HEAD
             contentDom.innerHTML = '';
             titleDom.className = 'title';
             titleDom.innerHTML = title;
             titleDom.className += ' title-show';
             var tId=setInterval(function(){
                 contentDom.innerHTML += txt.charAt(index);
-=======
-            for(var i = 0;i<2;i++){
-	            contentDom[i].innerHTML = '';
-	            titleDom[i].className = 'title';
-	            titleDom[i].innerHTML = title;
-	            titleDom[i].className += ' title-show';
-        	}
-            var tId=setInterval(function(){
-                
-                contentDom[0].innerHTML += txt.charAt(index);
-                contentDom[1].innerHTML += txt.charAt(index);
->>>>>>> 0da642be7c346e3715d73dfe141538a7cc6288c7
                 if(index++ === length){
                     clearInterval(tId);
                     index = 0;
