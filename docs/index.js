@@ -253,7 +253,13 @@ var bankList = [
 	}
 ];
 var vrMode = false;
-var TIME = 10000;
+var TIME = {
+	flyTime: 2500,
+	writeTime: 2500,
+	delayTime: 5000
+};
+var CURRENT = -1;
+var isAllowClick = false,isAnimateEnded = false;
 var isMobile = function () {
   	var check = false;
   	(function (a) {
@@ -269,8 +275,6 @@ function Index() {
 Index.prototype = {
 	init: function() {
 		var self = this;
-		this.isAllowClick = false;
-
 
 		//初始化场景
 		this.scene = new THREE.Scene();
@@ -283,7 +287,7 @@ Index.prototype = {
 		this.renderer.setSize(window.innerWidth,window.innerHeight);
 		this.renderer.setClearColor(0x519EcB);
 		this.renderer.shadowMapEnabled = true;
-		document.body.appendChild(this.renderer.domElement);
+		document.querySelector('.scene').appendChild(this.renderer.domElement);
 		this.scene.fog	= new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 		this.createLight();
 		this.createGround(10000,10000);
@@ -324,6 +328,7 @@ Index.prototype = {
 	},
 	bindEvent: function() {
 		var self = this;
+		this.domEvents = new THREEx.DomEvents(this.camera, this.renderer.domElement);
 
 		document.getElementById('vr').addEventListener('click',function () {
 		  	if(!vrMode) {
@@ -347,18 +352,18 @@ Index.prototype = {
 		}, false );
 		document.querySelector('.loading').addEventListener('click', function(e) {
 			if(e.target.innerHTML != '开始') return;
-			document.querySelector('.loading-mask').style.display = 'none';
+			document.body.removeChild(document.querySelector('.loading-mask'));
 			document.getElementById('AC').play();
 			self.introBox.className += ' show';		
 			var html = "2016即将即将成为历史，这一年, 我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
-			self.createText(self.introBox,"我们这一年",html,TIME/2,function() {
+			self.createText(self.introBox,"我们这一年",html,TIME.writeTime,function() {
 				var _self =self;
 				setTimeout(function() {
-					_self.introBox.className = self.introBox.className.replace(/show/g,'hide');
-				}, TIME/2);
+					_self.introBox.className = self.introBox.className.replace(/show/g,'');
+				}, TIME.delayTime);
 			});
-			self.animate(bankList.length,TIME);
-		})
+			self.animate(bankList.length,TIME.flyTime + TIME.writeTime + TIME.delayTime);
+		});
 	},
 	createLight: function() {
         this.scene.add(new THREE.AmbientLight(0xFFFFFF));
@@ -482,7 +487,7 @@ Index.prototype = {
             	setTimeout(callback, time);
             }
     },
-	createCube: function(height) { //创建高楼
+	createCube: function(height,callback) { //创建高楼
 		var self = this;
 		var cubeSize = 10;
 		var geometry =  new THREE.SphereGeometry( 15,12,12);
@@ -495,40 +500,40 @@ Index.prototype = {
 
 		// set(-30 + Math.round(Math.random() * this.gg.width),Math.round(Math.random() * 5,-20 + Math.round(Math.random() * this.gg.height)));
 		cube.castShadow = true;
+		cube.name = CURRENT;
 		this.scene.add( cube );
+
+		this.domEvents.addEventListener(cube, 'click', function(event){
+			console.log(cube.name);
+			if(!isAnimateEnded || !isAllowClick) return;
+			isAllowClick = false;
+			self.TextBoxAnimate(cube.name);
+		}, false);
+
+		this.cubeLine = null;
 		var cubeAnimate = new TWEEN.Tween({h:1,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
-			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME/4)
+			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME.flyTime)
 			.onUpdate(function() {
 				cube.scale.y = this.h;
 				self.UFO.position.x = this.x;
 				self.UFO.position.y = this.y;
 				self.UFO.position.z = this.z ;
+			})
+			.onComplete(function() {
+				var _self =self;
+				callback();
+				self.cubeLine = self.createCubeLine(geometry,cube.position.x,cube.position.y,cube.position.z,height);
+				self.scene.add(self.cubeLine);
+				self.cubeLineAnimate = new TWEEN.Tween({h:0})
+					.to({h:Math.PI*500},1000000)
+					.onUpdate(function() {
+						_self.cubeLine.rotation.y = this.h;
+					});
+					self.cubeLineAnimate.start();
 			});
-			// .onComplete(function() {
-			// 	alert();
-			// });
 			cubeAnimate.start();
-
-		//生成高楼扫描线
-		var cubeLine = {},cubeLineAnimate = {};
-		setTimeout(function() {
-			var _self = self;
-			cubeLine = self.createCubeLine(geometry,cube.position.x,cube.position.y,cube.position.z,height);
-			self.scene.add(cubeLine);
-			cubeLineAnimate = new TWEEN.Tween({h:0})
-				.to({h:Math.PI*500},1000000)
-				.onUpdate(function() {
-					cubeLine.rotation.y = this.h;
-				});
-				cubeLineAnimate.start();
 			geometry.dispose(); 
-			TWEEN.remove(cubeAnimate);
-			cubeAnimate = null;
-		}, TIME/4);
-		setTimeout(function() {
-			self.scene.remove(cubeLine);
-			TWEEN.remove(cubeLineAnimate);
-		},TIME);
+
 	},
 	createCubeLine: function(geometry,x,y,z,height) { //创建高楼扫描网格
 		var geometry = geometry.clone();
@@ -539,36 +544,43 @@ Index.prototype = {
 		geometry.dispose();
 		return mesh;
 	},
+	TextBoxAnimate: function(current) {
+		var self = this;
+		if(!!bankList[current].chartOption) {
+			self.chartBox.style.display = 'block';
+		} else {
+			self.chartBox.style.display = 'none';
+		}
+		self.createText(self.introBox,bankList[current].title,bankList[current].content,TIME.writeTime,function() {
+			var _self = self;
+			if(!!bankList[current].chartOption) self.chart.setOption(bankList[current].chartOption);
+			setTimeout(function() {
+				var className = self.introBox.className;
+				_self.introBox.className = className.replace(/show/g,'');
+				_self.chart.clear();
+				isAllowClick = true;
+			}, TIME.delayTime);
+		});
+	},
+	TextBoxEndAnimate: function() {
+		// body...
+	},
 	animate: function(num,delay) { //动画线程
 		var self = this;
-		var item = 0;
 		this.onWindowResize();
 		var id = setInterval(function() {
 			var _self = self;
-			if(item < num) {
-				self.createCube(5+5*Math.random(),self.createLine); //创建一栋建筑
-
-				//展示文字图表
-				setTimeout(function() {
-					if(self.scene.children.length>700) {
-						self.scene.remove(cube);
-					}
-					if(!!bankList[item].chartOption) {
-						self.chartBox.style.display = 'block';
-					} else {
-						self.chartBox.style.display = 'none';
-					}
-					self.createText(self.introBox,bankList[item].title,bankList[item].content,TIME/4,function() {
-						if(!!bankList[item].chartOption) self.chart.setOption(bankList[item].chartOption);
-					});
-				}, TIME/4);
-				setTimeout(function() {
-					var className = self.introBox.className;
-					self.introBox.className = className.replace(/show/g,'');
-					self.chart.clear();
-					item++;
-				}, TIME);
-
+			CURRENT++;
+			if(CURRENT < num) {
+				if(!!self.cubeLine) {
+					TWEEN.remove(self.cubeLineAnimate);
+					self.scene.remove(self.cubeLine);
+				}
+				//创建一栋建筑
+				self.createCube(5+5*Math.random(),function() {
+					_self.TextBoxAnimate(CURRENT);
+				}); 
+				
 			} else {
 				clearInterval(id);
 				setTimeout(function() {
@@ -601,7 +613,7 @@ Index.prototype = {
 
 		this.introBox.className += ' show';		
 		var html = "这就是我们，我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
-		this.createText(this.introBox,"我们这一年",html,TIME/2);
+		this.createText(this.introBox,"我们这一年",html,TIME.writeTime);
 
 		var tween = new TWEEN.Tween({up:this.TV.position.y,backX:this.UFO.position.x,backY:this.UFO.position.y,backZ:this.UFO.position.z})
 			.to({up:40,backX:0,backY:75,backZ:80},20000)
@@ -610,6 +622,10 @@ Index.prototype = {
 				self.UFO.position.x = this.backX;
 				self.UFO.position.y = this.backY;
 				self.UFO.position.z = this.backZ;
+			})
+			.onComplete(function() {
+				isAnimateEnded = true;
+				isAllowClick = true;
 			});
 			tween.start();
 	},

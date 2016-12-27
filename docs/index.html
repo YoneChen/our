@@ -10,11 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="./index.css">
 </head>
 <body>
-	<section class="loading-mask flex-box">
-		<div class="loading loading-animation"></div>
-	</section>
 	<audio id="AC" src="./audio/bgm1.mp3" loop preload="true"></audio>
-	<section class="main flex-box">
+	<section class="scene">
 		<div class="intro-box">
 			<div class="title"></div>
 			<p class="content"></p>
@@ -23,6 +20,9 @@
 				<div class="ro-center"></div>
 			</div>
 		</div>
+	</section>
+	<section class="loading-mask flex-box">
+		<div class="loading loading-animation"></div>
 		<div id="vr" class="btn-vr">VR模式</div>
 	</section>
 <script type="text/javascript">
@@ -38,6 +38,7 @@
 <script src="./vendor/VRControls.js"></script>
 <script src="./vendor/VREffect.js"></script>
 <script src="./vendor/tween.min.js"></script>
+<script src="./vendor/threex.domevents.js"></script>
 <script src="./vendor/stats.min.js"></script>
 <script src="./vendor/echarts.js"></script>
 <script src="./vendor/china.js"></script>
