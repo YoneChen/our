@@ -20,52 +20,73 @@ var bankList = [
 		    legend: {
 		        data:['运营活动开发','框架平台研发','技术知识分享','项目总量']
 		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true,
-		        borderColor: '#ddd'
-		    },
 		    xAxis : [
 		        {
 		            type : 'category',
+		            splitLine:{show: false},
 		            boundaryGap : false,
-		            data : ['Q1','Q2','Q3','Q4']
+		            data : ['Q1','Q2','Q3','Q4'],
+		            axisLabel: { show: true, textStyle: { color: '#1ccece' } } 
 		        }
 		    ],
 		    yAxis : [
 		        {
-		            type : 'value'
+		            type : 'value',
+		            splitLine:{show: false},
+		            axisLabel: { show: true, textStyle: { color: '#1ccece' } } 
 		        }
 		    ],
 		    series : [
 		        {
 		            name:'运营活动开发',
 		            type:'line',
-		            stack: '总量',
-		            areaStyle: {normal: {}},
+		            stack: '总量', 
+                    itemStyle : {  
+                        normal : {  
+                            lineStyle:{  
+                                color:'#1DDF65'  
+                            }  
+                        }  
+                    },  
 		            data:[8, 12, 15, 17]
 		        },
 		        {
 		            name:'框架平台研发',
 		            type:'line',
 		            stack: '总量',
-		            areaStyle: {normal: {}},
+                    itemStyle : {  
+                        normal : {  
+                            lineStyle:{  
+                                color:'#20D495'  
+                            }  
+                        }  
+                    },  
 		            data:[0, 1, 3, 4]
 		        },
 		        {
-		            name:'技术分享（视频、文章）',
+		            name:'技术知识分享',
 		            type:'line',
 		            stack: '总量',
-		            areaStyle: {normal: {}},
+                    itemStyle : {  
+                        normal : {  
+                            lineStyle:{  
+                                color:'#17D7C8'  
+                            }  
+                        }  
+                    },  
 		            data:[3, 4, 6, 8]
 		        },
 		        {
 		            name:'项目总量',
 		            type:'line',
 		            stack: '总量',
-		            areaStyle: {normal: {}},
+                    itemStyle : {  
+                        normal : {  
+                            lineStyle:{  
+                                color:'#DDD'  
+                            }  
+                        }  
+                    },  
 		            data:[11, 17, 24, 29]
 		        }
 		    ]
@@ -165,7 +186,7 @@ var bankList = [
 		chartOption: {
 
 		    title: {
-		        text: '银行一账通UEDC官网',
+		        text: '银行一账通UEDC展示类型',
 		        left: 'left',
 		        textStyle: {
 		            color: '#1ccece'
@@ -180,7 +201,7 @@ var bankList = [
 		    visualMap: {
 		        show: false,
 		        min: 0,
-		        max: 40,
+		        max: 500,
 		        inRange: {
 		            colorLightness: [0, 1]
 		        }
@@ -189,7 +210,7 @@ var bankList = [
 		        {
 		            name:'内容分类',
 		            type:'pie',
-		            radius : '72%',
+		            radius : '64%',
 		            center: ['50%', '50%'],
 		            data:[
 		                {value:40, name:'案例模板'},
@@ -231,6 +252,67 @@ var bankList = [
 		name:'业务逻辑自动生成平台',
 		title:'业务逻辑生成平台',
 		content: '将运营活动背后的业务逻辑进行归类和整理，做成业务逻辑可视化操作平台，产品经理和开发同学在该平台上梳理业务逻辑，最终生成一整套流程图、运营活动业务逻辑（js）和基础页面模板,代码质量也更具标准和规范。',
+		chartOption: {
+
+		    title: {
+		        text: '平台累计生成代码占比',
+		        left: 'left',
+		        textStyle: {
+		            color: '#1ccece'
+		        }
+		    },
+
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+
+		    visualMap: {
+		        show: false,
+		        min: 0,
+		        max: 10000,
+		        inRange: {
+		            colorLightness: [0, 1]
+		        }
+		    },
+		    series : [
+		        {
+		            name:'代码行数',
+		            type:'pie',
+		            radius : '72%',
+		            center: ['50%', '50%'],
+		            data:[
+		                {value:8000, name:'自动生成代码'},
+		                {value:1200, name:'手动增加代码'}
+		            ].sort(function (a, b) { return a.value - b.value}),
+		            roseType: 'angle',
+		            label: {
+		                normal: {
+		                    textStyle: {
+		                        color: 'rgba(255, 255, 255, 0.3)'
+		                    }
+		                }
+		            },
+		            labelLine: {
+		                normal: {
+		                    lineStyle: {
+		                        color: 'rgba(255, 255, 255, 0.3)'
+		                    },
+		                    smooth: 0.2,
+		                    length: 10,
+		                    length2: 20
+		                }
+		            },
+		            itemStyle: {
+		                normal: {
+		                    color: '#1ccece',
+		                    shadowBlur: 80,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		},
 		imglist:[]
 	},
 	{
@@ -241,8 +323,124 @@ var bankList = [
 	},
 	{
 		name:'技术框架建设',
-		title:'威海银行活动开发',
+		title:'技术框架建设',
 		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
+		chartOption: {
+		    backgroundColor: '#161627',
+		    title: {
+		        text: 'AQI - 雷达图',
+		        left: 'center',
+		        textStyle: {
+		            color: '#eee'
+		        }
+		    },
+		    legend: {
+		        bottom: 5,
+		        data: ['北京', '上海', '广州'],
+		        itemGap: 20,
+		        textStyle: {
+		            color: '#fff',
+		            fontSize: 14
+		        },
+		        selectedMode: 'single'
+		    },
+		    // visualMap: {
+		    //     show: true,
+		    //     min: 0,
+		    //     max: 20,
+		    //     dimension: 6,
+		    //     inRange: {
+		    //         colorLightness: [0.5, 0.8]
+		    //     }
+		    // },
+		    radar: {
+		        indicator: [
+		            {name: 'AQI', max: 300},
+		            {name: 'PM2.5', max: 250},
+		            {name: 'PM10', max: 300},
+		            {name: 'CO', max: 5},
+		            {name: 'NO2', max: 200},
+		            {name: 'SO2', max: 100}
+		        ],
+		        shape: 'circle',
+		        splitNumber: 5,
+		        name: {
+		            textStyle: {
+		                color: 'rgb(238, 197, 102)'
+		            }
+		        },
+		        splitLine: {
+		            lineStyle: {
+		                color: [
+		                    'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
+		                    'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
+		                    'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
+		                ].reverse()
+		            }
+		        },
+		        splitArea: {
+		            show: false
+		        },
+		        axisLine: {
+		            lineStyle: {
+		                color: 'rgba(238, 197, 102, 0.5)'
+		            }
+		        }
+		    },
+		    series: [
+		        {
+		            name: '北京',
+		            type: 'radar',
+		            lineStyle: lineStyle,
+		            data: dataBJ,
+		            symbol: 'none',
+		            itemStyle: {
+		                normal: {
+		                    color: '#F9713C'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    opacity: 0.1
+		                }
+		            }
+		        },
+		        {
+		            name: '上海',
+		            type: 'radar',
+		            lineStyle: lineStyle,
+		            data: dataSH,
+		            symbol: 'none',
+		            itemStyle: {
+		                normal: {
+		                    color: '#B3E4A1'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    opacity: 0.05
+		                }
+		            }
+		        },
+		        {
+		            name: '广州',
+		            type: 'radar',
+		            lineStyle: lineStyle,
+		            data: dataGZ,
+		            symbol: 'none',
+		            itemStyle: {
+		                normal: {
+		                    color: 'rgb(238, 197, 102)'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    opacity: 0.05
+		                }
+		            }
+		        }
+		    ]
+		},
 		imglist:[]
 	},
 	{
@@ -256,7 +454,7 @@ var vrMode = false;
 var TIME = {
 	flyTime: 2500,
 	writeTime: 2500,
-	delayTime: 5000
+	delayTime: 7500
 };
 var CURRENT = -1;
 var isAllowClick = false,isAnimateEnded = false;
@@ -504,14 +702,32 @@ Index.prototype = {
 		this.scene.add( cube );
 
 		this.domEvents.addEventListener(cube, 'click', function(event){
+			var _self = self;
 			console.log(cube.name);
 			if(!isAnimateEnded || !isAllowClick) return;
 			isAllowClick = false;
-			self.TextBoxAnimate(cube.name);
+			if(!!self.cubeLine) {
+				TWEEN.remove(self.cubeLineAnimate);
+				self.scene.remove(self.cubeLine);
+			}
+			self.chart.clear();
+			self.flyToCube(cube,function() {
+				_self.TextBoxAnimate(cube.name);
+			});
 		}, false);
 
-		this.cubeLine = null;
-		var cubeAnimate = new TWEEN.Tween({h:1,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
+		this.flyToCube(cube,callback,height);
+		geometry.dispose(); 
+
+	},
+	flyToCube: function(cube,callback,height) {
+		var self = this;
+		var initScaleY = 1;
+		if(!height) {
+			height = cube.scale.y;
+			initScaleY = cube.scale.y;
+		}
+		var cubeAnimate = new TWEEN.Tween({h:initScaleY,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
 			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME.flyTime)
 			.onUpdate(function() {
 				cube.scale.y = this.h;
@@ -522,7 +738,7 @@ Index.prototype = {
 			.onComplete(function() {
 				var _self =self;
 				callback();
-				self.cubeLine = self.createCubeLine(geometry,cube.position.x,cube.position.y,cube.position.z,height);
+				self.cubeLine = self.createCubeLine(cube.geometry,cube.position.x,cube.position.y,cube.position.z,height);
 				self.scene.add(self.cubeLine);
 				self.cubeLineAnimate = new TWEEN.Tween({h:0})
 					.to({h:Math.PI*500},1000000)
@@ -532,8 +748,6 @@ Index.prototype = {
 					self.cubeLineAnimate.start();
 			});
 			cubeAnimate.start();
-			geometry.dispose(); 
-
 	},
 	createCubeLine: function(geometry,x,y,z,height) { //创建高楼扫描网格
 		var geometry = geometry.clone();
@@ -544,52 +758,7 @@ Index.prototype = {
 		geometry.dispose();
 		return mesh;
 	},
-	TextBoxAnimate: function(current) {
-		var self = this;
-		if(!!bankList[current].chartOption) {
-			self.chartBox.style.display = 'block';
-		} else {
-			self.chartBox.style.display = 'none';
-		}
-		self.createText(self.introBox,bankList[current].title,bankList[current].content,TIME.writeTime,function() {
-			var _self = self;
-			if(!!bankList[current].chartOption) self.chart.setOption(bankList[current].chartOption);
-			setTimeout(function() {
-				var className = self.introBox.className;
-				_self.introBox.className = className.replace(/show/g,'');
-				_self.chart.clear();
-				isAllowClick = true;
-			}, TIME.delayTime);
-		});
-	},
-	TextBoxEndAnimate: function() {
-		// body...
-	},
-	animate: function(num,delay) { //动画线程
-		var self = this;
-		this.onWindowResize();
-		var id = setInterval(function() {
-			var _self = self;
-			CURRENT++;
-			if(CURRENT < num) {
-				if(!!self.cubeLine) {
-					TWEEN.remove(self.cubeLineAnimate);
-					self.scene.remove(self.cubeLine);
-				}
-				//创建一栋建筑
-				self.createCube(5+5*Math.random(),function() {
-					_self.TextBoxAnimate(CURRENT);
-				}); 
-				
-			} else {
-				clearInterval(id);
-				setTimeout(function() {
-					_self.createTV();
-				}, delay);
-			}
-		},delay);
-	},
-	createTV: function() {
+	createTV: function(callback) {
 		//创建电视屏
 		var self = this;
 
@@ -606,28 +775,91 @@ Index.prototype = {
 			}
 		}
 
-		this.TV = new THREE.Mesh( TVgeometry, new THREE.MeshFaceMaterial(materials) );
-		this.TV.position.set(0,-20,0);
-		this.scene.add(this.TV);
+		var TV = new THREE.Mesh( TVgeometry, new THREE.MeshFaceMaterial(materials) );
+		TV.position.set(0,-20,0);
+		TV.name = CURRENT;
+		this.scene.add(TV);
+
+		this.domEvents.addEventListener(TV, 'click', function(event){
+			var _self = self;
+			console.log(TV);
+			if(!isAnimateEnded || !isAllowClick) return;
+			isAllowClick = false;
+			if(!!self.cubeLine) {
+				TWEEN.remove(self.cubeLineAnimate);
+				self.scene.remove(self.cubeLine);
+			}
+			self.chart.clear();
+			self.flyToTV(TV,function() {
+				_self.TextBoxAnimate(TV.name);
+			});
+		}, false);
 		TVgeometry.dispose(); 
 
-		this.introBox.className += ' show';		
-		var html = "这就是我们，我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
-		this.createText(this.introBox,"我们这一年",html,TIME.writeTime);
-
-		var tween = new TWEEN.Tween({up:this.TV.position.y,backX:this.UFO.position.x,backY:this.UFO.position.y,backZ:this.UFO.position.z})
-			.to({up:40,backX:0,backY:75,backZ:80},20000)
+		this.flyToTV(TV,callback,50);
+	},
+	flyToTV: function(TV,callback,postionY) {
+		var self = this;
+		if(!postionY) postionY = TV.position.y;
+		var TVAnimate = new TWEEN.Tween({up:TV.position.y,backX:this.UFO.position.x,backY:this.UFO.position.y,backZ:this.UFO.position.z})
+			.to({up:postionY,backX:0,backY:75,backZ:80},TIME.flyTime)
 			.onUpdate(function() {
-				self.TV.position.y = this.up;
+				TV.position.y = this.up;
 				self.UFO.position.x = this.backX;
 				self.UFO.position.y = this.backY;
 				self.UFO.position.z = this.backZ;
 			})
 			.onComplete(function() {
-				isAnimateEnded = true;
-				isAllowClick = true;
+				if(!!callback) callback();
 			});
-			tween.start();
+			TVAnimate.start();
+	},
+	TextBoxAnimate: function(current) {
+		var self = this;
+		if(!!bankList[current].chartOption) {
+			self.chartBox.style.display = 'block';
+		} else {
+			self.chartBox.style.display = 'none';
+		}
+		self.createText(self.introBox,bankList[current].title,bankList[current].content,TIME.writeTime,function() {
+			var _self = self;
+			if(!!bankList[current].chartOption) self.chart.setOption(bankList[current].chartOption);
+			if (!isAnimateEnded) {
+				setTimeout(function() {
+					var className = self.introBox.className;
+					_self.introBox.className = className.replace(/show/g,'');
+					_self.chart.clear();
+				}, TIME.delayTime);
+			} else {
+				isAllowClick = true;
+			}
+		});
+	},
+	animate: function(num,delay) { //动画线程
+		var self = this;
+		this.onWindowResize();
+		var id = setInterval(function() {
+			var _self = self;
+			CURRENT++;
+			if(!!self.cubeLine) {
+				TWEEN.remove(self.cubeLineAnimate);
+				self.scene.remove(self.cubeLine);
+			}
+			if(CURRENT < num-1) {
+				//创建一栋建筑
+				self.createCube(5+5*Math.random(),function() {
+					_self.TextBoxAnimate(CURRENT);
+				}); 
+				
+			} else {
+				clearInterval(id);
+				self.createTV(function() {
+					_self.TextBoxAnimate(CURRENT);
+					isAnimateEnded = true;
+					isAllowClick = true;
+				});
+			}
+		},delay);
 	},
 	render: function() {
 		var self = this;
