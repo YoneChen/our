@@ -4,6 +4,75 @@
 **/
 var bankList = [
 	{
+		name:'我们一年的工作',
+		title:'我们一年的工作',
+		content: '12个月 活动上线数：10，我们的产出：生活缴费活动、0元看电影活动、一账通转盘引流活动、理财贴息活动等 ',
+		chartOption: option = {
+		    title: {
+		        text: '2016年我们完成的事情',
+		        textStyle: {
+		        	color: '#1ccece'
+		        }
+		    },
+		    tooltip : {
+		        trigger: 'axis'
+		    },
+		    legend: {
+		        data:['运营活动开发','框架平台研发','技术知识分享','项目总量']
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true,
+		        borderColor: '#ddd'
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            boundaryGap : false,
+		            data : ['Q1','Q2','Q3','Q4']
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value'
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'运营活动开发',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {normal: {}},
+		            data:[8, 12, 15, 17]
+		        },
+		        {
+		            name:'框架平台研发',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {normal: {}},
+		            data:[0, 1, 3, 4]
+		        },
+		        {
+		            name:'技术分享（视频、文章）',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {normal: {}},
+		            data:[3, 4, 6, 8]
+		        },
+		        {
+		            name:'项目总量',
+		            type:'line',
+		            stack: '总量',
+		            areaStyle: {normal: {}},
+		            data:[11, 17, 24, 29]
+		        }
+		    ]
+		},
+		imglist:[]
+	},
+	{
 		name:'2016年开发上线的运营活动',
 		title:'2016年开发上线的运营活动',
 		content: '2016年我们完成17 家银行、58个运营活动项目；上线次数排名前三的的银行是：紫金（17次）、上海（11次）、威海（4次) 和广州（4次）。',
@@ -11,7 +80,7 @@ var bankList = [
 			title: {
 				text: '2016年H5活动上线银行图',
 		        textStyle: {
-		            color: '#fff'
+		            color: '#1ccece'
 		        }
 			},
 			tooltip:{},
@@ -90,63 +159,90 @@ var bankList = [
 		imglist:[]
 	},
 	{
-		name:'我们一年的工作',
-		title:'上海银行活动开发',
-		content: '活动上线数：10，我们的产出：生活缴费活动、0元看电影活动、一账通转盘引流活动、理财贴息活动等',
+		name:'银行一账通UEDC官网',
+		title:'银行一账通UEDC官网',
+		content: '银行一账通UEDC官网，是平安金融壹账通H5运营服务组自主开发的综合性平台，该平台主要抽象并沉淀出一系列高可用的运营活动案例、组件以及围绕前端技术展开文章和视频的分享等。平台的目标是：依托平台上的资源、组件快速产出运营活动；对热门技术知识沉淀以及分享。',
+		chartOption: {
+
+		    title: {
+		        text: '银行一账通UEDC官网',
+		        left: 'left',
+		        textStyle: {
+		            color: '#1ccece'
+		        }
+		    },
+
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+
+		    visualMap: {
+		        show: false,
+		        min: 0,
+		        max: 40,
+		        inRange: {
+		            colorLightness: [0, 1]
+		        }
+		    },
+		    series : [
+		        {
+		            name:'内容分类',
+		            type:'pie',
+		            radius : '72%',
+		            center: ['50%', '50%'],
+		            data:[
+		                {value:40, name:'案例模板'},
+		                {value:21, name:'组件特效'},
+		                {value:12, name:'技术文章'},
+		                {value:3, name:'视频分享'}
+		            ].sort(function (a, b) { return a.value - b.value}),
+		            roseType: 'angle',
+		            label: {
+		                normal: {
+		                    textStyle: {
+		                        color: 'rgba(255, 255, 255, 0.3)'
+		                    }
+		                }
+		            },
+		            labelLine: {
+		                normal: {
+		                    lineStyle: {
+		                        color: 'rgba(255, 255, 255, 0.3)'
+		                    },
+		                    smooth: 0.2,
+		                    length: 10,
+		                    length2: 20
+		                }
+		            },
+		            itemStyle: {
+		                normal: {
+		                    color: '#fff',
+		                    shadowBlur: 80,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		},
 		imglist:[]
 	},
 	{
-		name:'广州银行',
-		title:'广州银行活动开发',
-		content: '活动上线数：10，我们的产出：红棉理财活动、签到补签活动、送航空意外险活动等',
+		name:'业务逻辑自动生成平台',
+		title:'业务逻辑生成平台',
+		content: '将运营活动背后的业务逻辑进行归类和整理，做成业务逻辑可视化操作平台，产品经理和开发同学在该平台上梳理业务逻辑，最终生成一整套流程图、运营活动业务逻辑（js）和基础页面模板；通过该平台，开发同和产品经理沟通时间由原来的5小时左右缩短到1小时，开发业务逻辑代码由原来的2---3天缩短到30分钟，整体30%代码可以复用，代码质量也更具标准和规范。',
 		imglist:[]
 	},
 	{
-		name:'启东银行',
-		title:'台州银行活动开发',
-		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'自贡银行',
-		title:'自贡银行活动开发',
-		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'吉林银行',
-		title:'吉林银行活动开发',
+		name:'H5微场景生成工具',
+		title:'H5微场景生成工具',
 		content: '活动上线数：10，我们的产出：购买理财砸金蛋活动、健康跑活动、天添宝活动、梦想基金活动等',
 		imglist:[]
 	},
 	{
-		name:'威海银行',
+		name:'技术框架建设',
 		title:'威海银行活动开发',
 		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'顺德银行',
-		title:'富银银行活动开发',
-		content: '活动上线数：10，我们的产出：做任务送金币活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'泰安银行',
-		title:'泰安银行活动开发',
-		content: '活动上线数：10，我们的产出：智能存款活动、泰惠投活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'佛山银行',
-		title:'佛山银行活动开发',
-		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'华瑞银行',
-		title:'华瑞银行活动开发',
-		content: '活动上线数：10，我们的产出：注册有礼活动、买理财送话费油卡活动等',
 		imglist:[]
 	},
 	{
@@ -168,7 +264,7 @@ var bankList = [
 		imglist:[]
 	},
 	{
-		name:'台州银行',
+		name:'2017年规划',
 		title:'我们的2017年',
 		content: '活动上线数：10，我们的产出：签到送流量活动、首次贷款充大奖活动、账户安全险活动等',
 		imglist:[]
@@ -270,10 +366,7 @@ Index.prototype = {
 		document.querySelector('.loading').addEventListener('click', function(e) {
 			if(e.target.innerHTML != '开始') return;
 			document.querySelector('.loading-mask').style.display = 'none';
-			document.getElementById('keyboard').play();
-			setTimeout(function(){
-				document.getElementById('AC').play();
-			},4000);
+			document.getElementById('AC').play();
 			self.introBox.className += ' show';		
 			var html = "2016即将即将成为历史，这一年, 我们团队的共同努力下,攻克了一个又一个难题,圆满完成了各个项目,取得了令人欣喜的成绩，而我们始终在探索与创新的道路上……";
 			self.createText(self.introBox,"我们这一年",html,TIME/2,function() {
@@ -284,6 +377,36 @@ Index.prototype = {
 			});
 			self.animate(bankList.length,TIME);
 		})
+	},
+	createLight: function() {
+        this.scene.add(new THREE.AmbientLight(0xFFFFFF));
+        var light = new THREE.DirectionalLight( 0xffffff, 0.3 );
+		light.position.set( 200, 450, 500 );
+		light.castShadow = true;
+		light.shadow.mapSize.width = 2048;
+		light.shadow.mapSize.height = 512;
+		light.shadow.camera.near = 100;
+		light.shadow.camera.far = 1200;
+		light.shadow.camera.left = -1000;
+		light.shadow.camera.right = 1000;
+		light.shadow.camera.top = 350;
+		light.shadow.camera.bottom = -350;
+		this.scene.add( light );
+	},
+
+	createGround: function(width,height) {
+		//  GROUND
+		var gt = new THREE.TextureLoader().load( "" );
+		this.gg = new THREE.PlaneBufferGeometry( width, height );
+		var gm = new THREE.MeshPhongMaterial( { color: 0xffffff, map: gt } );
+		this.ground = new THREE.Mesh( this.gg, gm );
+		this.ground.rotation.x = - Math.PI / 2;
+		this.ground.material.map.repeat.set( 500, 500 );
+		this.ground.material.map.wrapS = THREE.RepeatWrapping;
+		this.ground.material.map.wrapT = THREE.RepeatWrapping;
+		// note that because the ground does not cast a shadow, .castShadow is left false
+		this.ground.receiveShadow = true;
+		this.scene.add( this.ground );
 	},
 
 	onWindowResize: function() {
@@ -346,7 +469,6 @@ Index.prototype = {
 		this.scene.add(this.UFO);
 		geometry.dispose(); 
 
-		var self =this;
 		var tween = new TWEEN.Tween({h:0})
 			.to({h:Math.PI*1000},1000000)
 			.onUpdate(function() {
@@ -378,7 +500,7 @@ Index.prototype = {
             	setTimeout(callback, time);
             }
     },
-	createCube: function(obj,height) {
+	createCube: function(height) { //创建高楼
 		var self = this;
 		var cubeSize = 10;
 		var geometry =  new THREE.SphereGeometry( 15,12,12);
@@ -392,9 +514,7 @@ Index.prototype = {
 		// set(-30 + Math.round(Math.random() * this.gg.width),Math.round(Math.random() * 5,-20 + Math.round(Math.random() * this.gg.height)));
 		cube.castShadow = true;
 		this.scene.add( cube );
-
-		geometry.dispose(); 
-		var tween = new TWEEN.Tween({h:1,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
+		var cubeAnimate = new TWEEN.Tween({h:1,x:this.UFO.position.x,y:this.UFO.position.y,z:this.UFO.position.z})
 			.to({h:height,x:cube.position.x,y:height*15+5,z:cube.position.z},TIME/4)
 			.onUpdate(function() {
 				cube.scale.y = this.h;
@@ -405,75 +525,74 @@ Index.prototype = {
 			// .onComplete(function() {
 			// 	alert();
 			// });
-			tween.start();
-		setTimeout(function() {
-			TWEEN.remove(tween);
-			tween = null;
-		}, TIME/4);
-		setTimeout(function() {
-			if(self.scene.children.length>700) {
-				self.scene.remove(cube);
-			}
-			if(!!obj.chartOption) {
-				self.chartBox.style.display = 'block';
-			} else {
-				self.chartBox.style.display = 'none';
-			}
-			self.createText(self.introBox,obj.title,obj.content,TIME/4,function() {
-				self.chart.setOption(obj.chartOption);
-			});
-		}, TIME/4);
-		setTimeout(function() {
-			var className = self.introBox.className;
-			self.introBox.className = className.replace(/show/g,'');
-			self.chart.clear();
-		}, TIME);
-	},
-	createLight: function() {
-        this.scene.add(new THREE.AmbientLight(0xFFFFFF));
-        var light = new THREE.DirectionalLight( 0xffffff, 0.3 );
-		light.position.set( 200, 450, 500 );
-		light.castShadow = true;
-		light.shadow.mapSize.width = 2048;
-		light.shadow.mapSize.height = 512;
-		light.shadow.camera.near = 100;
-		light.shadow.camera.far = 1200;
-		light.shadow.camera.left = -1000;
-		light.shadow.camera.right = 1000;
-		light.shadow.camera.top = 350;
-		light.shadow.camera.bottom = -350;
-		this.scene.add( light );
-	},
+			cubeAnimate.start();
 
-	createGround: function(width,height) {
-		//  GROUND
-		var gt = new THREE.TextureLoader().load( "" );
-		this.gg = new THREE.PlaneBufferGeometry( width, height );
-		var gm = new THREE.MeshPhongMaterial( { color: 0xffffff, map: gt } );
-		this.ground = new THREE.Mesh( this.gg, gm );
-		this.ground.rotation.x = - Math.PI / 2;
-		this.ground.material.map.repeat.set( 500, 500 );
-		this.ground.material.map.wrapS = THREE.RepeatWrapping;
-		this.ground.material.map.wrapT = THREE.RepeatWrapping;
-		// note that because the ground does not cast a shadow, .castShadow is left false
-		this.ground.receiveShadow = true;
-		this.scene.add( this.ground );
+		//生成高楼扫描线
+		var cubeLine = {},cubeLineAnimate = {};
+		setTimeout(function() {
+			var _self = self;
+			cubeLine = self.createCubeLine(geometry,cube.position.x,cube.position.y,cube.position.z,height);
+			self.scene.add(cubeLine);
+			cubeLineAnimate = new TWEEN.Tween({h:0})
+				.to({h:Math.PI*500},1000000)
+				.onUpdate(function() {
+					cubeLine.rotation.y = this.h;
+				});
+				cubeLineAnimate.start();
+			geometry.dispose(); 
+			TWEEN.remove(cubeAnimate);
+			cubeAnimate = null;
+		}, TIME/4);
+		setTimeout(function() {
+			self.scene.remove(cubeLine);
+			TWEEN.remove(cubeLineAnimate);
+		},TIME);
 	},
-	animate: function(num,delay) {
+	createCubeLine: function(geometry,x,y,z,height) { //创建高楼扫描网格
+		var geometry = geometry.clone();
+		var material = new THREE.MeshBasicMaterial({color:0x1ccece,wireframe:true});
+		var mesh = new THREE.Mesh(geometry,material);
+		mesh.position.set(x,y,z);
+		mesh.scale.set(1.1,height*1,1.1);
+		geometry.dispose();
+		return mesh;
+	},
+	animate: function(num,delay) { //动画线程
 		var self = this;
 		var item = 0;
 		this.onWindowResize();
 		var id = setInterval(function() {
 			var _self = self;
 			if(item < num) {
-				self.createCube(bankList[item],5+5*Math.random(),self.createLine);
+				self.createCube(5+5*Math.random(),self.createLine); //创建一栋建筑
+
+				//展示文字图表
+				setTimeout(function() {
+					if(self.scene.children.length>700) {
+						self.scene.remove(cube);
+					}
+					if(!!bankList[item].chartOption) {
+						self.chartBox.style.display = 'block';
+					} else {
+						self.chartBox.style.display = 'none';
+					}
+					self.createText(self.introBox,bankList[item].title,bankList[item].content,TIME/4,function() {
+						if(!!bankList[item].chartOption) self.chart.setOption(bankList[item].chartOption);
+					});
+				}, TIME/4);
+				setTimeout(function() {
+					var className = self.introBox.className;
+					self.introBox.className = className.replace(/show/g,'');
+					self.chart.clear();
+					item++;
+				}, TIME);
+
 			} else {
 				clearInterval(id);
 				setTimeout(function() {
 					_self.createTV();
 				}, delay);
 			}
-			item++;
 		},delay);
 	},
 	createTV: function() {
@@ -525,7 +644,7 @@ Index.prototype = {
 			requestAnimationFrame(render);
 			self.stats.update();
 			self.scene.position.x = -self.UFO.position.x;
-			self.scene.position.y = -self.UFO.position.y+80;
+			self.scene.position.y = -self.UFO.position.y+120;
 			self.scene.position.z = -self.UFO.position.z-150;
 		}
 		render();
