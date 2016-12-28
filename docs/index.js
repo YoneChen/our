@@ -97,7 +97,7 @@ var bankList = [
 	{
 		name:'2016年开发上线的运营活动',
 		title:'2016年开发上线的运营活动',
-		content: '2016年我们完成17 家银行、58个运营活动项目；上线次数排名前三的的银行是：紫金（17次）、上海（11次）、威海（4次) 和广州（4次）。',
+		content: '2016年我们完成17 家银行、58个运营活动项目。',
 		chartOption:{
 			title: {
 				text: '2016年H5活动上线银行图',
@@ -161,7 +161,8 @@ var bankList = [
 		                normal: {
 		                    formatter: '{b}',
 		                    position: 'right',
-		                    show: true
+		                    show: true,
+		                    fontSize: '14'
 		                },
 		                emphasis: {
 		                    show: true
@@ -183,7 +184,7 @@ var bankList = [
 	{
 		name:'银行一账通UEDC官网',
 		title:'银行一账通UEDC官网',
-		content: '银行一账通UEDC官网，是平安金融壹账通H5运营服务组自主开发的综合性平台，该平台主要抽象并沉淀出一系列高可用的运营活动案例、组件以及围绕前端技术展开文章和视频的分享等。',
+		content: '平安金融壹账通H5运营服务组开发的综合性平台，主要沉淀高可用的H5案例、组件以及围绕前端技术展开分享等。',
 		chartOption: {
 
 		    title: {
@@ -211,7 +212,7 @@ var bankList = [
 		        {
 		            name:'内容分类',
 		            type:'pie',
-		            radius : '64%',
+		            radius : '50%',
 		            center: ['50%', '50%'],
 		            data:[
 		                {value:40, name:'案例模板'},
@@ -252,7 +253,7 @@ var bankList = [
 	{
 		name:'业务逻辑自动生成平台',
 		title:'业务逻辑生成平台',
-		content: '将运营活动背后的业务逻辑进行归类和整理，做成业务逻辑可视化操作平台，产品经理和开发同学在该平台上梳理业务逻辑，最终生成一整套流程图、运营活动业务逻辑（js）和基础页面模板,代码质量也更具标准和规范。',
+		content: '运营活动的业务逻辑的可视化操作平台，可直接生成一整套流程图、运营活动业务逻辑（js）和基础页面模板。',
 		chartOption: {
 
 		    title: {
@@ -280,7 +281,7 @@ var bankList = [
 		        {
 		            name:'代码行数',
 		            type:'pie',
-		            radius : '72%',
+		            radius : '50%',
 		            center: ['50%', '50%'],
 		            data:[
 		                {value:8000, name:'自动生成代码'},
@@ -319,135 +320,13 @@ var bankList = [
 	{
 		name:'H5微场景生成工具',
 		title:'H5微场景生成工具',
-		content: '活动上线数：10，我们的产出：购买理财砸金蛋活动、健康跑活动、天添宝活动、梦想基金活动等',
-		imglist:[]
-	},
-	{
-		name:'技术框架建设',
-		title:'技术框架建设',
-		content: '活动上线数：10，我们的产出：端午节贴息活动、健康跑活动、天添宝活动、梦想基金活动等',
-		// chartOption: {
-		//     backgroundColor: '#161627',
-		//     title: {
-		//         text: 'AQI - 雷达图',
-		//         left: 'center',
-		//         textStyle: {
-		//             color: '#eee'
-		//         }
-		//     },
-		//     legend: {
-		//         bottom: 5,
-		//         data: ['北京', '上海', '广州'],
-		//         itemGap: 20,
-		//         textStyle: {
-		//             color: '#fff',
-		//             fontSize: 14
-		//         },
-		//         selectedMode: 'single'
-		//     },
-		//     // visualMap: {
-		//     //     show: true,
-		//     //     min: 0,
-		//     //     max: 20,
-		//     //     dimension: 6,
-		//     //     inRange: {
-		//     //         colorLightness: [0.5, 0.8]
-		//     //     }
-		//     // },
-		//     radar: {
-		//         indicator: [
-		//             {name: 'AQI', max: 300},
-		//             {name: 'PM2.5', max: 250},
-		//             {name: 'PM10', max: 300},
-		//             {name: 'CO', max: 5},
-		//             {name: 'NO2', max: 200},
-		//             {name: 'SO2', max: 100}
-		//         ],
-		//         shape: 'circle',
-		//         splitNumber: 5,
-		//         name: {
-		//             textStyle: {
-		//                 color: 'rgb(238, 197, 102)'
-		//             }
-		//         },
-		//         splitLine: {
-		//             lineStyle: {
-		//                 color: [
-		//                     'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
-		//                     'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
-		//                     'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
-		//                 ].reverse()
-		//             }
-		//         },
-		//         splitArea: {
-		//             show: false
-		//         },
-		//         axisLine: {
-		//             lineStyle: {
-		//                 color: 'rgba(238, 197, 102, 0.5)'
-		//             }
-		//         }
-		//     },
-		//     series: [
-		//         {
-		//             name: '北京',
-		//             type: 'radar',
-		//             lineStyle: lineStyle,
-		//             data: dataBJ,
-		//             symbol: 'none',
-		//             itemStyle: {
-		//                 normal: {
-		//                     color: '#F9713C'
-		//                 }
-		//             },
-		//             areaStyle: {
-		//                 normal: {
-		//                     opacity: 0.1
-		//                 }
-		//             }
-		//         },
-		//         {
-		//             name: '上海',
-		//             type: 'radar',
-		//             lineStyle: lineStyle,
-		//             data: dataSH,
-		//             symbol: 'none',
-		//             itemStyle: {
-		//                 normal: {
-		//                     color: '#B3E4A1'
-		//                 }
-		//             },
-		//             areaStyle: {
-		//                 normal: {
-		//                     opacity: 0.05
-		//                 }
-		//             }
-		//         },
-		//         {
-		//             name: '广州',
-		//             type: 'radar',
-		//             lineStyle: lineStyle,
-		//             data: dataGZ,
-		//             symbol: 'none',
-		//             itemStyle: {
-		//                 normal: {
-		//                     color: 'rgb(238, 197, 102)'
-		//                 }
-		//             },
-		//             areaStyle: {
-		//                 normal: {
-		//                     opacity: 0.05
-		//                 }
-		//             }
-		//         }
-		//     ]
-		// },
+		content: '拖拽式制作H5页面，具有76种过场动画。',
 		imglist:[]
 	},
 	{
 		name:'2017年规划',
 		title:'我们的2017年',
-		content: '活动上线数：10，我们的产出：签到送流量活动、首次贷款充大奖活动、账户安全险活动等',
+		content: '直销银行H5版；直销银行微信公众号版',
 		imglist:[]
 	}
 ];
@@ -500,10 +379,6 @@ Index.prototype = {
 			vertexColors	: THREE.VertexColors
 		});
 
-		//帧率显示
-		this.stats = new Stats();
-		document.body.appendChild( this.stats.dom );
-
 		//创建城市
 		this.scene.add(new THREEx.ProceduralCity(this.renderer));
 
@@ -534,7 +409,6 @@ Index.prototype = {
 	},
 	bindEvent: function() {
 		var self = this;
-		this.domEvents = new THREEx.DomEvents(this.camera, this.renderer.domElement);
 
 		document.getElementById('vr').addEventListener('click',function () {
 		  	if(!vrMode) {
@@ -747,9 +621,6 @@ Index.prototype = {
 				_self.TextBoxAnimate(cube.name);
 			});
 		}
-		// this.domEvents.addEventListener(cube, 'click', function(event){
-		// 	cube.gazeEvent();
-		// }, false);
 		this.MESHLIST.push(cube);
 
 		this.flyToCube(cube,callback,height);
@@ -816,7 +687,7 @@ Index.prototype = {
 		TV.name = CURRENT;
 		this.scene.add(TV);
 
-		this.domEvents.addEventListener(TV, 'click', function(event){
+		TV.gazeEvent = function() {
 			var _self = self;
 			console.log(TV);
 			if(!isAnimateEnded || !isAllowClick) return;
@@ -829,7 +700,8 @@ Index.prototype = {
 			self.flyToTV(TV,function() {
 				_self.TextBoxAnimate(TV.name);
 			});
-		}, false);
+		}
+		this.MESHLIST.push(TV);
 		TVgeometry.dispose(); 
 
 		this.flyToTV(TV,callback,50);
@@ -910,7 +782,6 @@ Index.prototype = {
 			self.vrControls.update();
 			TWEEN.update();
 			requestAnimationFrame(render);
-			self.stats.update();
 			self.scene.position.x = -self.UFO.position.x;
 			self.scene.position.y = -self.UFO.position.y+120;
 			self.scene.position.z = -self.UFO.position.z-150;
