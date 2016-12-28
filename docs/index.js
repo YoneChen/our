@@ -7,7 +7,7 @@ var bankList = [
 	{
 		name:'我们一年的工作',
 		title:'我们一年的工作',
-		content: '12个月 活动上线数：10，我们的产出：生活缴费活动、0元看电影活动、一账通转盘引流活动、理财贴息活动等 ',
+		content: '我们主要的工作是运营活动H5开发上线、Web前端知识分享以及组内框架建设。',
 		chartOption: option = {
 		    title: {
 		        text: '2016年我们完成的事情',
@@ -19,7 +19,11 @@ var bankList = [
 		        trigger: 'axis'
 		    },
 		    legend: {
-		        data:['运营活动开发','框架平台研发','技术知识分享','项目总量']
+		        data:['运营活动开发','框架平台研发','技术知识分享','项目总量'],       // 图例图形高度
+		        textStyle: {
+		            color: '#eee'          // 图例文字颜色
+		        },
+		        y: 'bottom'
 		    },
 		    xAxis : [
 		        {
@@ -44,6 +48,7 @@ var bankList = [
 		            stack: '总量', 
                     itemStyle : {  
                         normal : {  
+                        	color:'#1DDF65',
                             lineStyle:{  
                                 color:'#1DDF65'  
                             }  
@@ -57,6 +62,7 @@ var bankList = [
 		            stack: '总量',
                     itemStyle : {  
                         normal : {  
+                    		color:'#20D495',  
                             lineStyle:{  
                                 color:'#20D495'  
                             }  
@@ -70,6 +76,7 @@ var bankList = [
 		            stack: '总量',
                     itemStyle : {  
                         normal : {  
+                            color:'#17D7C8',
                             lineStyle:{  
                                 color:'#17D7C8'  
                             }  
@@ -82,9 +89,10 @@ var bankList = [
 		            type:'line',
 		            stack: '总量',
                     itemStyle : {  
+                        color:'#DDDDDD',
                         normal : {  
                             lineStyle:{  
-                                color:'#DDD'  
+                                color:'#DDDDDD'  
                             }  
                         }  
                     },  
@@ -326,7 +334,7 @@ var bankList = [
 	{
 		name:'2017年规划',
 		title:'我们的2017年',
-		content: '直销银行H5版；直销银行微信公众号版',
+		content: '直销银行H5版；直销银行微信公众号版...总结还没想好',
 		imglist:[]
 	}
 ];
@@ -457,7 +465,7 @@ Index.prototype = {
 	      GazeTarget++;
 	      if (GazeTarget>100) {
 	      		intersects[0].object.gazeEvent();
-	      		isAllowClick = false;
+	    		this.laser.className = this.laser.className.replace(/ scaleAnimate/g,'');
 	      } else if(GazeTarget>25) {
 	      		this.laser.className +=' scaleAnimate';
 	      }
@@ -609,16 +617,20 @@ Index.prototype = {
 		this.scene.add( cube );
 		cube.gazeEvent = function() {
 			var _self = self;
-			console.log(cube.name);
 			if(!isAnimateEnded || !isAllowClick) return;
 			isAllowClick = false;
+			if(CURRENT == cube.name) {
+				isAllowClick = true;
+				return;
+			}
 			if(!!self.cubeLine) {
 				TWEEN.remove(self.cubeLineAnimate);
 				self.scene.remove(self.cubeLine);
 			}
+			CURRENT = cube.name;
 			self.chart.clear();
 			self.flyToCube(cube,function() {
-				_self.TextBoxAnimate(cube.name);
+				_self.TextBoxAnimate(CURRENT);
 			});
 		}
 		this.MESHLIST.push(cube);
@@ -689,16 +701,20 @@ Index.prototype = {
 
 		TV.gazeEvent = function() {
 			var _self = self;
-			console.log(TV);
 			if(!isAnimateEnded || !isAllowClick) return;
 			isAllowClick = false;
+			if(CURRENT == TV.name) {
+				isAllowClick = true;
+				return;
+			}
+			CURRENT = TV.name
 			if(!!self.cubeLine) {
 				TWEEN.remove(self.cubeLineAnimate);
 				self.scene.remove(self.cubeLine);
 			}
 			self.chart.clear();
 			self.flyToTV(TV,function() {
-				_self.TextBoxAnimate(TV.name);
+				_self.TextBoxAnimate(CURRENT);
 			});
 		}
 		this.MESHLIST.push(TV);
@@ -763,9 +779,15 @@ Index.prototype = {
 				clearInterval(id);
 				self.createTV(function() {
 					_self.TextBoxAnimate(CURRENT);
-					isAnimateEnded = true;
-					isAllowClick = true;
-					self.laser.style.display = 'block';
+					var __self = _self;
+					setTimeout(function() {
+						var className = __self.introBox.className;
+						__self.introBox.className = className.replace(/show/g,'');
+						__self.chart.clear();
+						isAnimateEnded = true;
+						isAllowClick = true;
+						__self.laser.style.display = 'block';
+					}, TIME.delayTime);
 				});
 			}
 		},delay);
