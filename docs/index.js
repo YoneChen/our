@@ -2,7 +2,7 @@
 ** author:YorkChan
 ** date:2016-12-18
 **/
-		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");	
+var GazeTarget = 0;
 var bankList = [
 	{
 		name:'我们一年的工作',
@@ -516,6 +516,7 @@ Index.prototype = {
 		// 初始化VR视觉控件
   		this.effect = new THREE.VREffect(this.renderer);
   		this.vrControls = new THREE.VRControls(this.camera);
+		this.initLaser();
 		this.render();
 	},
 	initChart: function () {
@@ -524,6 +525,12 @@ Index.prototype = {
 		this.chart = echarts.init(this.chartBox);
 		this.introBox = document.querySelector('.intro-box');
 		this.chartBox.style.display = 'none';
+	},
+	initLaser: function() {
+		this.MESHLIST = [];
+		this.laser = document.querySelector('.laser');
+		this.laser.style.top = (window.window.innerHeight/2 - 8) + 'px';
+		this.laser.style.left = (window.innerWidth/2 - 8) + 'px';
 	},
 	bindEvent: function() {
 		var self = this;
@@ -563,6 +570,29 @@ Index.prototype = {
 			});
 			self.animate(bankList.length,TIME.flyTime + TIME.writeTime + TIME.delayTime);
 		});
+
+		this.raycaster = new THREE.Raycaster();
+		this.center = new THREE.Vector2();
+	},
+	gaze: function() { //
+	  if(isAnimateEnded && isAllowClick) {
+	    this.raycaster.setFromCamera(this.center, this.camera);
+	    var intersects = this.raycaster.intersectObjects(this.MESHLIST);
+
+	    if (intersects.length > 0) {
+	      GazeTarget++;
+	      if (GazeTarget>100) {
+	      		intersects[0].object.gazeEvent();
+	      		isAllowClick = false;
+	      } else if(GazeTarget>25) {
+	      		this.laser.className +=' scaleAnimate';
+	      }
+
+	    } else {
+	    	GazeTarget=0;
+	    	this.laser.className = this.laser.className.replace(/ scaleAnimate/g,'');
+	    }
+	  }
 	},
 	createLight: function() {
         this.scene.add(new THREE.AmbientLight(0xFFFFFF));
@@ -604,6 +634,8 @@ Index.prototype = {
 		} else {
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
 		}
+		this.laser.style.top = (window.window.innerHeight/2 - 8) + 'px';
+		this.laser.style.left = (window.innerWidth/2 - 8) + 'px';
 	},
 	createSpotLight: function() {
 		var spotLight = new THREE.SpotLight(0xFFFFFF);
@@ -701,8 +733,7 @@ Index.prototype = {
 		cube.castShadow = true;
 		cube.name = CURRENT;
 		this.scene.add( cube );
-
-		this.domEvents.addEventListener(cube, 'dblclick', function(event){
+		cube.gazeEvent = function() {
 			var _self = self;
 			console.log(cube.name);
 			if(!isAnimateEnded || !isAllowClick) return;
@@ -715,7 +746,11 @@ Index.prototype = {
 			self.flyToCube(cube,function() {
 				_self.TextBoxAnimate(cube.name);
 			});
-		}, false);
+		}
+		// this.domEvents.addEventListener(cube, 'click', function(event){
+		// 	cube.gazeEvent();
+		// }, false);
+		this.MESHLIST.push(cube);
 
 		this.flyToCube(cube,callback,height);
 		geometry.dispose(); 
@@ -763,6 +798,7 @@ Index.prototype = {
 		//创建电视屏
 		var self = this;
 	
+		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");	
 		var sidematerial = new THREE.MeshPhongMaterial( { color: 0xcccccc} );
 		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 		var TVgeometry = new THREE.CubeGeometry(100,75,5,3,3,3);
@@ -857,6 +893,7 @@ Index.prototype = {
 					_self.TextBoxAnimate(CURRENT);
 					isAnimateEnded = true;
 					isAllowClick = true;
+					self.laser.style.display = 'block';
 				});
 			}
 		},delay);
@@ -869,6 +906,7 @@ Index.prototype = {
 			}  else {
 				self.renderer.render(self.scene,self.camera);
 			}
+			self.gaze();
 			self.vrControls.update();
 			TWEEN.update();
 			requestAnimationFrame(render);
