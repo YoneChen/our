@@ -3,7 +3,6 @@
 ** date:2016-12-18
 **/
 		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");	
-		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 var bankList = [
 	{
 		name:'我们一年的工作',
@@ -765,6 +764,7 @@ Index.prototype = {
 		var self = this;
 	
 		var sidematerial = new THREE.MeshPhongMaterial( { color: 0xcccccc} );
+		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 		var TVgeometry = new THREE.CubeGeometry(100,75,5,3,3,3);
 		var materials = [ centermaterial,sidematerial ];
 		for(var i = 0;i<TVgeometry.faces.length;i++) {
@@ -780,7 +780,7 @@ Index.prototype = {
 		TV.name = CURRENT;
 		this.scene.add(TV);
 
-		this.domEvents.addEventListener(TV, 'dblclick', function(event){
+		this.domEvents.addEventListener(TV, 'click', function(event){
 			var _self = self;
 			console.log(TV);
 			if(!isAnimateEnded || !isAllowClick) return;
