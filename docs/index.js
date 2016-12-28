@@ -494,14 +494,10 @@ Index.prototype = {
 
 	createGround: function(width,height) {
 		//  GROUND
-		var gt = new THREE.TextureLoader().load( "" );
 		this.gg = new THREE.PlaneBufferGeometry( width, height );
-		var gm = new THREE.MeshPhongMaterial( { color: 0xffffff, map: gt } );
+		var gm = new THREE.MeshPhongMaterial( { color: 0x000000} );
 		this.ground = new THREE.Mesh( this.gg, gm );
 		this.ground.rotation.x = - Math.PI / 2;
-		this.ground.material.map.repeat.set( 500, 500 );
-		this.ground.material.map.wrapS = THREE.RepeatWrapping;
-		this.ground.material.map.wrapT = THREE.RepeatWrapping;
 		// note that because the ground does not cast a shadow, .castShadow is left false
 		this.ground.receiveShadow = true;
 		this.scene.add( this.ground );
@@ -681,7 +677,7 @@ Index.prototype = {
 		//创建电视屏
 		var self = this;
 	
-		var TVmap = THREE.ImageUtils.loadTexture("./textures/us.jpg");	
+		var TVmap =  new THREE.TextureLoader().load("./textures/us.jpg");	
 		var sidematerial = new THREE.MeshPhongMaterial( { color: 0xcccccc} );
 		var centermaterial = new THREE.MeshPhongMaterial( { color: 0xdddddd,map:TVmap} );
 		var TVgeometry = new THREE.CubeGeometry(100,75,5,3,3,3);
@@ -805,7 +801,7 @@ Index.prototype = {
 			TWEEN.update();
 			requestAnimationFrame(render);
 			self.scene.position.x = -self.UFO.position.x;
-			self.scene.position.y = -self.UFO.position.y+120;
+			self.scene.position.y = -self.UFO.position.y+110;
 			self.scene.position.z = -self.UFO.position.z-150;
 		}
 		render();
