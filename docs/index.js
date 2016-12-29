@@ -439,7 +439,7 @@ Index.prototype = {
 			self.onWindowResize();
 		}, false );
 		document.querySelector('.loading').addEventListener('click', function(e) {
-			if(e.target.innerHTML != '开始') return;
+			if(e.target.innerHTML != '点我') return;
 			document.body.removeChild(document.querySelector('.loading-mask'));
 			document.getElementById('AC').play();
 			self.introBox.className += ' show';		
